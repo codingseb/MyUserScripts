@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name         Arya Crypto calcul valeur en usdt
-// @version      1.0
+// @namespace    http://tampermonkey.net/
+// @version      1.1
 // @description  Pour afficher la valeur en usdt de la quantité sélectionnée de crypto
 // @author       CodingSeb
 // @match        https://*.crypto.arya.xyz/webui/trades*
