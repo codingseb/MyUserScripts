@@ -17,7 +17,7 @@
     function inject(){
         try{
 
-            $('span:contains("acheter"), span:contains("vendre")').each(function (index, element) {
+            $('span:contains("acheter"), span:contains("vendre"), span:contains("buy"), span:contains("sell")').each(function (index, element) {
                 try{
 
                     if ($(element).children().length === 0) {
