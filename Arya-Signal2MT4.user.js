@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Arya Signal to MT4 Script
 // @namespace    TamperMonkey
-// @version      1.0
+// @version      1.1
 // @description  try to take over the world!
 // @author       Coding Seb
 // @match        https://arya.xyz/*
@@ -17,18 +17,21 @@
     function inject(){
         try{
 
-            $('div:contains("entrée au marché")').each(function (index, element) {
+            $('span:contains("acheter"), span:contains("vendre")').each(function (index, element) {
                 try{
 
                     if ($(element).children().length === 0) {
-
-                        var infosDiv = $(element).next().children()[0];
+                        var content = $(element).text();
+                        var parent = $(element).parent();
+                        var infosDiv = parent.parent().next().next().children()[0];
+                        console.log(infosDiv);
                         var infos = $(infosDiv).text();
-                        var symbolDiv = $(element).prev().prev().children()[1];
+                        console.log(infos);
+                        var symbolDiv = parent.next();
                         var symbol = $(symbolDiv).text().trim();
                         var trade = "trade:Type:market Symbole:[" + symbol + "] " + infos;
                         console.log(trade);
-                        $(element).html("<button onclick='window.open(\"" + trade + "\");' class='capitalize border border-gray-500 p-1 px-5 rounded'> Entrée au marché </button>");
+                        parent.replaceWith("<button onclick='window.open(\"" + trade + "\");' class='" + parent.attr('class') + "'>" + content.toUpperCase() + "</button>");
                     }
 
                 }
@@ -36,27 +39,6 @@
                     console.log(marketEx);
                 }
             });
-
-            $('div:contains("ordre conditionnel")').each(function (index, element) {
-                try{
-
-                    if ($(element).children().length === 0) {
-
-                        var infosDiv = $(element).next().children()[0];
-                        var infos = $(infosDiv).text();
-                        var symbolDiv = $(element).prev().prev().children()[1];
-                        var symbol = $(symbolDiv).text().trim();
-                        var trade = "trade:Type:conditional Symbole:[" + symbol + "] " + infos;
-                        console.log(trade);
-                        $(element).html("<button onclick='window.open(\"" + trade + "\");' class='capitalize border border-gray-500 p-1 px-5 rounded'> Ordre conditionnel </button>");
-                    }
-
-                }
-                catch (conditionEx) {
-                    console.log(conditionEx);
-                }
-            });
-
         }
         catch (globalEx) {
             console.log(globalEx);
